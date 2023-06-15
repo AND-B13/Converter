@@ -11,17 +11,19 @@
   <link rel="preload" href="fonts/OpenSansSemiBold.woff2" as="font" type="font/woff2">
   <link rel="preload" href="fonts/OpenSansBold.woff2" as="font" type="font/woff2">
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
   <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="library/choices.min.css">
   <link rel="stylesheet" href="css/style.css">
 
-  <script defer src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-  <script defer src="https://www.cbr-xml-daily.ru/money.js"></script>
-  <script defer type="module" src="script/script.js"></script>
+  <script defer src="library/choices.min.js"></script>
+  <script defer src="library/money.min.js"></script>
+  <script type="module" src="script/script.js"></script>
   <script>
+
     document.addEventListener('DOMContentLoaded', () => {
       api();
-    })
+    });
+
   </script>
 </head>
 
@@ -29,17 +31,18 @@
   <main>
     <section class="currency-converter">
       <div class="container">
-        <h1 class="title">Конвертер валют</h1>
+        <h1 class="currency-converter__title title">Конвертер валют</h1>
         <div class="currency-converter__wrapper">
           <div class="currency-converter__select-wrapper">
             <span class="currency-converter__note">У меня имеется</span>
-            <select class="currency-converter__select" name="from" id="select-from">
-              <option value="Default">Выберите базовую валюту</option>
+            <select class="currency-converter__select" name="from" id="select-from" aria-label="Выбор базовой валюты">
+              <option class="currency-converter__option" value="Default">Выберите базовую валюту</option>
             </select>
-            <input type="number" id="conversion-amount">
+            <input class="currency-converter__conversion-amount" type="number" id="conversion-amount">
           </div>
           <button class="currency-converter__btn btn-reset">
-            <svg width="49" height="52" viewBox="0 0 49 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="currency-converter__icon" width="49" height="52" viewBox="0 0 49 52" fill="none"
+              xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M37.0807 51.2747C37.326 51.52 37.6429 51.6427 37.97 51.6427C38.297 51.6427 38.6139 51.52 38.8592 51.2747L48.5178 41.6161C49.0084 41.1255 49.0084 40.3385 48.5178 39.8479L38.8592 30.1893C38.3686 29.6987 37.5816 29.6987 37.091 30.1893C36.6004 30.6799 36.6004 31.4669 37.091 31.9575L44.6135 39.48H1.79866C1.10365 39.48 0.541504 40.0421 0.541504 40.7371C0.541504 41.4321 1.10365 41.9943 1.79866 41.9943H44.6032L37.0807 49.5066C36.5902 49.9971 36.5902 50.7944 37.0807 51.2747Z"
                 fill="black" />
@@ -50,10 +53,11 @@
           </button>
           <div class="currency-converter__select-wrapper">
             <span class="currency-converter__note">Хочу приобрести</span>
-            <select class="currency-converter__select" name="to" id="select-to">
+            <select class="currency-converter__select" name="to" id="select-to" aria-label="Выбор базовой валюты">
               <option value="Default">Выберите базовую валюту</option>
             </select>
-            <span id="total"></span>
+            <span class="currency-converter__conversion-amount currency-converter__conversion-amount--span"
+              id="total"></span>
           </div>
         </div>
       </div>
@@ -77,4 +81,5 @@
     </section>
   </main>
 </body>
+
 </html>

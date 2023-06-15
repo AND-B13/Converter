@@ -26,28 +26,34 @@
     }
   }
 
-  // Перебор данных с API
-  async function enumerationObjects(objsData) {
-    Object.keys(objsData).forEach(key => {
+  // Перебор данных с API и распределение на отрисовку
+  function enumerationObjects(objsData) {
+    selects.forEach(select => createOption(select, 'RUB', 'Российский рубль'));
+
+    for(const key in objsData) {
       const innerObj = objsData[key];
-      createOption(innerObj, fromSelect);
-      createOption(innerObj, toSelect);
-      createTableDesktop(innerObj, tableApp)
-    });
-    defaultSelect(toSelect);
-    defaultSelect(fromSelect);
+      selects.forEach(select => createOption(select, innerObj.CharCode, innerObj.Name));
+      createTableDesktop(innerObj, tableApp);
+    }
+
+    selects.forEach(select => defaultChoicesSelect(select));
   };
 
   // Заполнение селектора и создание элементов на основе данных API
-  function createOption(innerObj, container) {
+  function createOption(container, CharCode, Name) {
     const elementOption = document.createElement('option');
     const elementSpan = document.createElement('span');
+    const wrapperText = document.createElement('span');
 
-    elementOption.textContent = `${innerObj.Name} `;
-    elementOption.value = innerObj.CharCode;
-    elementSpan.textContent = innerObj.CharCode;
+    elementOption.value = CharCode;
+    wrapperText.textContent = Name;
+    elementSpan.textContent = CharCode;
 
-    elementOption.append(elementSpan);
+    elementOption.classList.add('currency-converter__option');
+    wrapperText.classList.add('currency-converter__name');
+    elementSpan.classList.add('currency-converter__code')
+
+    elementOption.append(wrapperText, elementSpan);
     container.append(elementOption);
   }
 
@@ -74,7 +80,7 @@
     tdCurrency.classList.add('table__td');
     tdRate.classList.add('table__td');
 
-    img.src = `img/${innerObj.CharCode}.svg`;
+    img.src = `img/flags/${innerObj.CharCode}.svg`;
     img.alt = `Флаг страны ${innerObj.CharCode}`;
 
     tdCode.textContent = innerObj.CharCode;
@@ -87,19 +93,19 @@
   }
 
   // Кастомный селект
-  function defaultSelect(select) {
+  function defaultChoicesSelect(select) {
     const choices = new Choices(select, {
-      searchEnabled: true,
+      searchEnabled: false,
     });
 
     const ariaLabel = select.getAttribute('aria-label');
     select.closest('.choices').setAttribute('aria-label', ariaLabel);
-    return choices;
   };
 
   // Конвертация суммы
   function conversion(value, fromValue, toValue, container) {
-    container.textContent = fx(+value).from(fromValue).to(toValue);
+    const num = fx(+value).from(fromValue).to(toValue);
+    container.textContent = +num.toFixed(4);
   }
 
   // Событие с проверкой для отправки данных на конвертацию + задержка в 0.5s
