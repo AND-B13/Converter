@@ -4,7 +4,7 @@
   const numberConver = document.getElementById('conversion-amount')
   const total = document.getElementById('total')
   const selects = document.querySelectorAll('.currency-converter__select');
-  const reversBtn = document.querySelector('currency-converter__btn');
+  const reversBtn = document.querySelector('.currency-converter__btn');
   const formattedDate = document.getElementById('today');
   const tableApp = document.getElementById('table-body');
   const DEFAULT = 'Default';
@@ -36,7 +36,8 @@
       createTableDesktop(innerObj, tableApp);
     }
 
-    selects.forEach(select => defaultChoicesSelect(select));
+    defaultChoicesSelect(fromSelect, 'one');
+    defaultChoicesSelect(toSelect, 'two');
   };
 
   // Заполнение селектора и создание элементов на основе данных API
@@ -76,7 +77,8 @@
 
     tr.classList.add('table__tr');
     tdCode.classList.add('table__td');
-    img.classList.add('table__img')
+    img.classList.add('table__img');
+    tdUnit.classList.add('table__td');
     tdCurrency.classList.add('table__td');
     tdRate.classList.add('table__td');
 
@@ -93,9 +95,12 @@
   }
 
   // Кастомный селект
-  function defaultChoicesSelect(select) {
+  function defaultChoicesSelect(select, num) {
     const choices = new Choices(select, {
       searchEnabled: false,
+      classNames: {
+        listDropdown: `choices__list--dropdown-${num}`,
+      }
     });
 
     const ariaLabel = select.getAttribute('aria-label');
@@ -127,8 +132,13 @@
     })
   })
 
-  // reversBtn.addEventListener('click', () => {
-  // })
+  reversBtn.addEventListener('click', () => {
+    const selectOne = choicesOne.getValue();
+    const selectTwo = choicesTwo.getValue();
+
+    choicesOne.setValue(selectTwo)
+    choicesTwo.setValue(selectOne)
+  })
 
 
   window.api = api;
