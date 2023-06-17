@@ -97,7 +97,9 @@
   // Кастомный селект
   function defaultChoicesSelect(select, num) {
     const choices = new Choices(select, {
-      searchEnabled: false,
+      searchEnabled: true,
+      position: 'down',
+      noResultsText: 'Валюта не найдена',
       classNames: {
         listDropdown: `choices__list--dropdown-${num}`,
       }
