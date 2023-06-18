@@ -6,6 +6,7 @@
   const selects = document.querySelectorAll('.currency-converter__select');
   const formattedDate = document.getElementById('today');
   const tableApp = document.getElementById('table-body');
+  const reverseBtn = document.getElementById('reverse-btn');
   const screenWidth = window.matchMedia("(max-width: 1024px)");
   const DEFAULT = 'Default';
   let timerId;
@@ -41,8 +42,25 @@
       }
     }
 
-    defaultChoicesSelect(fromSelect, 'one');
-    defaultChoicesSelect(toSelect, 'two');
+    const choicesOne = defaultChoicesSelect(fromSelect, 'one');
+    const choicesTwo = defaultChoicesSelect(toSelect, 'two');
+
+    reverseBtn.addEventListener('click', () => {
+      numberConver.value = '';
+      total.textContent = '';
+
+      const selectOne = choicesOne.getValue();
+      const selectTwo = choicesTwo.getValue();
+
+      choicesOne.setValue([{
+        value: selectTwo.value,
+        label: selectTwo.label,
+      }])
+      choicesTwo.setValue([{
+        value: selectOne.value,
+        label: selectOne.label,
+      }])
+    })
 
     screenWidth.addEventListener('change', (e) => {
       if (e.matches) {
@@ -173,8 +191,14 @@
     const choices = new Choices(select, {
       searchEnabled: true,
       position: 'down',
-      noResultsText: 'Валюта не найдена',
       searchResultLimit: 44,
+      allowHTML: true,
+      itemSelectText: '',
+      searchPlaceholderValue: 'Что будем искать?',
+      loadingText: 'Поиск...',
+      noResultsText: 'Валюта не найдена',
+      placeholder: true,
+      placeholderValue: 'Выберите валюту',
       classNames: {
         listDropdown: `choices__list--dropdown-${num}`,
       }
@@ -182,6 +206,8 @@
 
     const ariaLabel = select.getAttribute('aria-label');
     select.closest('.choices').setAttribute('aria-label', ariaLabel);
+
+    return choices;
   };
 
   // Конвертация суммы
@@ -196,9 +222,14 @@
       clearTimeout(timerId);
       timerId = setTimeout(() => {
         conversion(numberConver.value, fromSelect.value, toSelect.value, total);
+        console.log(fromSelect.value);
       }, 500);
     }
   });
+
+  numberConver.addEventListener('keypress', (e) => {
+    if (e.key === 'e' || e.key === 'E') e.preventDefault()
+  })
 
   // Доп проверка на селекторы если инпут введен раньше выбора
   selects.forEach(select => {
