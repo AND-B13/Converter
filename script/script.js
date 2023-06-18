@@ -194,6 +194,7 @@
       searchResultLimit: 44,
       allowHTML: true,
       itemSelectText: '',
+      duplicateItemsAllowed: false,
       searchPlaceholderValue: 'Что будем искать?',
       loadingText: 'Поиск...',
       noResultsText: 'Валюта не найдена',
