@@ -1,13 +1,16 @@
 (() => {
+  const mainPage = document.getElementById('page');
   const fromSelect = document.getElementById('select-from');
   const toSelect = document.getElementById('select-to');
-  const numberConver = document.getElementById('conversion-amount')
-  const total = document.getElementById('total')
+  const numberConver = document.getElementById('conversion-amount');
+  const total = document.getElementById('total');
   const selects = document.querySelectorAll('.currency-converter__select');
   const formattedDate = document.getElementById('today');
   const tableApp = document.getElementById('table-body');
   const reverseBtn = document.getElementById('reverse-btn');
   const closeBtn = document.querySelector('.currency-converter__btn-close');
+  const loading = document.getElementById('loading');
+  const strips = document.querySelectorAll('.spinner__strip');
   const screenWidth = window.matchMedia("(max-width: 1024px)");
   const DEFAULT = 'Default';
   let timerId;
@@ -25,7 +28,19 @@
       const currencyData = serverData.Valute;
       enumerationObjects(currencyData);
       today(formattedDate, serverData);
+      setTimeout(() => {
+        hideLoader();
+      }, 2000);
     }
+  }
+
+  function hideLoader() {
+    document.body.classList.remove('stop-scroll');
+    mainPage.classList.remove('hidden');
+    loading.classList.remove('spinner--loading');
+    strips.forEach(strip => {
+      strip.classList.add('spinner__strip--none')
+    })
   }
 
   // Перебор данных с API и распределение на отрисовку

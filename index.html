@@ -23,8 +23,8 @@
   </script>
 </head>
 
-<body>
-  <main>
+<body class="stop-scroll">
+  <main class="hidden" id="page">
     <section class="currency-converter">
       <div class="container">
         <button class="currency-converter__btn-close btn-reset currency-converter__btn-close--hidden" aria-label="Кнопка закрыть выпадающий список" id="button-close-select">
@@ -93,6 +93,11 @@
       </div>
     </section>
   </main>
+  <div class="spinner spinner--loading" id="loading">
+    <div class="spinner__strip"></div>
+    <div class="spinner__strip"></div>
+    <div class="spinner__strip"></div>
+</div>
 </body>
 
 </html>
