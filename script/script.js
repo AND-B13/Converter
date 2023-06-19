@@ -7,6 +7,7 @@
   const formattedDate = document.getElementById('today');
   const tableApp = document.getElementById('table-body');
   const reverseBtn = document.getElementById('reverse-btn');
+  const closeBtn = document.querySelector('.currency-converter__btn-close');
   const screenWidth = window.matchMedia("(max-width: 1024px)");
   const DEFAULT = 'Default';
   let timerId;
@@ -61,6 +62,23 @@
         label: selectOne.label,
       }])
     })
+
+    if (window.screen.width < 577) {
+      selects.forEach(e => e.addEventListener('hideDropdown', () => {
+        closeBtn.classList.add('currency-converter__btn-close--hidden');
+      }))
+
+      const choises = document.querySelectorAll('.choices');
+      choises.forEach(select => {
+        select.addEventListener('click', () => {
+          closeBtn.classList.remove('currency-converter__btn-close--hidden');
+          closeBtn.addEventListener('click', () => {
+            select.classList.remove('is-open');
+            closeBtn.classList.add('currency-converter__btn-close--hidden');
+          })
+        })
+      })
+    }
 
     screenWidth.addEventListener('change', (e) => {
       if (e.matches) {
@@ -194,7 +212,6 @@
       searchResultLimit: 44,
       allowHTML: true,
       itemSelectText: '',
-      duplicateItemsAllowed: false,
       searchPlaceholderValue: 'Что будем искать?',
       loadingText: 'Поиск...',
       noResultsText: 'Валюта не найдена',
@@ -228,6 +245,7 @@
     }
   });
 
+  // Пропкуск буквы e и E для числового ввода
   numberConver.addEventListener('keypress', (e) => {
     if (e.key === 'e' || e.key === 'E') e.preventDefault()
   })
