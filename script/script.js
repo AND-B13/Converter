@@ -34,6 +34,7 @@
     }
   }
 
+  // Убираем загрузочный экран
   function hideLoader() {
     document.body.classList.remove('stop-scroll');
     mainPage.classList.remove('hidden');
@@ -111,7 +112,6 @@
       }
     })
   };
-
 
   // Заполнение селектора и создание элементов на основе данных API
   function createOption(container, CharCode, Name) {
