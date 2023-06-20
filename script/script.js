@@ -12,6 +12,7 @@
   const loading = document.getElementById('loading');
   const strips = document.querySelectorAll('.spinner__strip');
   const screenWidth = window.matchMedia("(max-width: 1024px)");
+  const screenWidthMobileBtn = window.matchMedia("(max-width: 576px)");
   const DEFAULT = 'Default';
   let timerId;
 
@@ -50,7 +51,9 @@
 
     for (const key in objsData) {
       const innerObj = objsData[key];
-      selects.forEach(select => createOption(select, innerObj.CharCode, innerObj.Name));
+      selects.forEach(select => {
+        createOption(select, innerObj.CharCode, innerObj.Name);
+      });
 
       if (window.screen.width > 1024) {
         createTableDesktop(innerObj, tableApp);
@@ -62,38 +65,8 @@
     const choicesOne = defaultChoicesSelect(fromSelect, 'one');
     const choicesTwo = defaultChoicesSelect(toSelect, 'two');
 
-    reverseBtn.addEventListener('click', () => {
-      numberConver.value = '';
-      total.textContent = '';
-
-      const selectOne = choicesOne.getValue();
-      const selectTwo = choicesTwo.getValue();
-
-      choicesOne.setValue([{
-        value: selectTwo.value,
-        label: selectTwo.label,
-      }])
-      choicesTwo.setValue([{
-        value: selectOne.value,
-        label: selectOne.label,
-      }])
-    })
-
     if (window.screen.width < 577) {
-      selects.forEach(e => e.addEventListener('hideDropdown', () => {
-        closeBtn.classList.add('currency-converter__btn-close--hidden');
-      }))
-
-      const choises = document.querySelectorAll('.choices');
-      choises.forEach(select => {
-        select.addEventListener('click', () => {
-          closeBtn.classList.remove('currency-converter__btn-close--hidden');
-          closeBtn.addEventListener('click', () => {
-            select.classList.remove('is-open');
-            closeBtn.classList.add('currency-converter__btn-close--hidden');
-          })
-        })
-      })
+      closeBtnMobile();
     }
 
     screenWidth.addEventListener('change', (e) => {
@@ -110,6 +83,23 @@
           createTableDesktop(innerObj, tableApp);
         }
       }
+    })
+
+    reverseBtn.addEventListener('click', () => {
+      numberConver.value = '';
+      total.textContent = '';
+
+      const selectOne = choicesOne.getValue();
+      const selectTwo = choicesTwo.getValue();
+
+      choicesOne.setValue([{
+        value: selectTwo.value,
+        label: selectTwo.label,
+      }])
+      choicesTwo.setValue([{
+        value: selectOne.value,
+        label: selectOne.label,
+      }])
     })
   };
 
@@ -248,6 +238,31 @@
     const num = fx(+value).from(fromValue).to(toValue);
     container.textContent = +num.toFixed(4);
   }
+
+  // Событие на кнопку закрыть
+  function closeBtnMobile() {
+    selects.forEach(e => e.addEventListener('hideDropdown', () => {
+      closeBtn.classList.add('currency-converter__btn-close--hidden');
+    })
+    )
+    const choices = document.querySelectorAll('.choices');
+    choices.forEach(select => {
+      select.addEventListener('click', () => {
+        closeBtn.classList.remove('currency-converter__btn-close--hidden');
+        closeBtn.addEventListener('click', () => {
+          select.classList.remove('is-open');
+          closeBtn.classList.add('currency-converter__btn-close--hidden');
+        })
+      })
+    })
+  }
+
+  // добавление события на кнопку
+  screenWidthMobileBtn.addEventListener('change', (e) => {
+    if (e.matches) {
+      closeBtnMobile();
+    }
+  })
 
   // Событие с проверкой для отправки данных на конвертацию + задержка в 0.5s
   numberConver.addEventListener('input', () => {
