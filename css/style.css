@@ -784,7 +784,11 @@ body {
   }
 
   .choices .choices__inner .choices__item.choices__item--selectable span {
-    min-height: 20px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: bottom;
+    line-height: 23px;
+    min-height: 23px;
     font-size: 20px;
   }
 
