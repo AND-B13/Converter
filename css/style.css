@@ -397,7 +397,8 @@ body {
 
 .choices[data-type*="select-one"] .choices__input {
   margin-bottom: 20px;
-  appearance: none;
+  -moz-appearance: none;
+       appearance: none;
   -webkit-appearance: none;
   border-radius: 0;
 }
